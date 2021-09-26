@@ -19,10 +19,9 @@ class PhoneBookRepository extends ServiceEntityRepository
         parent::__construct($registry, PhoneBook::class);
     }
 
-    // /**
-    //  * @return PhoneBook[] Returns an array of PhoneBook objects
-    //  */
-    /*
+    /**
+     * @return PhoneBook[] Returns an array of PhoneBook objects
+     */
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('p')
@@ -34,9 +33,9 @@ class PhoneBookRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+    
 
-    /*
+    
     public function findOneBySomeField($value): ?PhoneBook
     {
         return $this->createQueryBuilder('p')
@@ -46,5 +45,5 @@ class PhoneBookRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }
