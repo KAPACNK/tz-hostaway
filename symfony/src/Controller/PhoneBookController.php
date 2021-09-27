@@ -3,21 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\PhoneBook;
-use App\Repository\PhoneBookRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-// use FOS\RestBundle\Controller\Annotations as Rest;
-// use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 
-class PhoneBookController extends AbstractController
+/**
+ * Class PhoneBookController
+ * 
+ * @Rest\Route("/api", name="phone_book_api")
+ */
+class PhoneBookController extends AbstractFOSRestController
 {
-
     /**
-     * @Route("/api/phone-book/{id}", name="api_get_phone_book", methods={"GET"})
+     * @Rest\Get("/phone-book/{id}", name="api_get_phone_book")
      */
     public function getPhoneBookAction(int $id): Response
     {
@@ -26,13 +25,19 @@ class PhoneBookController extends AbstractController
         $result = $repository->find($id);
 
         if (!$result) {
-            return $this->json([
-                'message' => 'ERROR',
-                'body' => Response::HTTP_NOT_FOUND,
+            $response =  $this->json([
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => 'Phone book not found'
             ]);
+            return $response;
         }
 
-        return new JsonResponse($result, Response::HTTP_OK);
+        $response =  $this->json([
+            'code' => Response::HTTP_OK,
+            'body' => $result->jsonSerialize()
+        ]);
+
+        return $response;
     }
 
 
